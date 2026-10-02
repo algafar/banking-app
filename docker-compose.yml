@@ -1,0 +1,41 @@
+services:
+  fastapi_bankingsysten:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_bankingsystem
+    env_file:
+      - .env
+    environment:
+      DB_HOST: bankingsystem_mysql
+    ports:
+      - "8001:8000"
+    depends_on:
+      bankingsystem_mysql:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  bankingsystem_mysql:
+    image: mysql:8.4
+    container_name: bankingsystem_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - bankingsystem_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+    restart: unless-stopped
+
+volumes:
+  bankingsystem_mysql_data:
