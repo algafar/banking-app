@@ -18,6 +18,9 @@ from routers.tickets import router as ticketrouter
 from routers.admin import router as adminrouter
 Base.metadata.create_all(engine)
 app = FastAPI(title="Banking system")
+@app.get("/")
+def read_roof():
+    return {"status": "online", "message": "Banking API is running successfully!"}
 
 app.add_middleware(
     CORSMiddleware,
