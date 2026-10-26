@@ -132,7 +132,7 @@ def send_admin_reply(
 
 
 @router.patch("/support/rooms/{room_id}/status")
-async def update_room_status(room_id: int, payload: StatusUpdate, db: Session = Depends(get_db)):
+async def update_room_status(room_id: int, payload: StatusUpdate,current_user:Users= Depends(require_admin), db: Session = Depends(get_db)):
     """
     Updates the status (OPEN, IN_PROGRESS, RESOLVED) of a specific chat room in the database.
     """

@@ -62,4 +62,5 @@ def add_account(new_account: AccountRegCreate,db:Session = Depends(get_db)):
         return accountreg_in
     except Exception as e:
         db.rollback()
+        print(str(e))
         raise e
