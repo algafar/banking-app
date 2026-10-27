@@ -11,7 +11,7 @@ router = APIRouter(prefix="/register", tags=["AccountRegistration"])
 manager = Manager()
 
 account_number = manager.generate_account_number()
-@router.post('/',response_model=AccountRegResponse, status_code=status.HTTP_201_CREATED)
+@router.post('',response_model=AccountRegResponse, status_code=status.HTTP_201_CREATED)
 def add_account(new_account: AccountRegCreate,db:Session = Depends(get_db)):
 
     saving_account_number = manager.generate_account_number() 
