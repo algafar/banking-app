@@ -24,8 +24,7 @@ def read_roof():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://banking-app-frontend-production.up.railway.app",
-                   "http://localhost:3000",],
+    allow_origins_regex=r"https://.*\.up\.railway\.app|http://localhost:\d+",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
