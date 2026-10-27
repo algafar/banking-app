@@ -9,8 +9,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(prefix="/login", tags=["Login"])
 manager = Manager()
 
+@router.post("", response_model=Token)
 @router.post('/',response_model=Token)
-def Login(login_data:OAuth2PasswordRequestForm= Depends(),db:Session = Depends(get_db)):
+async def Login(login_data:OAuth2PasswordRequestForm= Depends(),db:Session = Depends(get_db)):
     user = manager.get_users_by_email(login_data.username,db)
     if not user:
         raise HTTPException(
